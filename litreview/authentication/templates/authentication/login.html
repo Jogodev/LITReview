@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>{{ message }}</p>
+<form method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Se connecter</button>
+    {% if user.is_authenticated %}
+    <p>Vous êtes connecté {{ request.user }} <a href="{% url 'logout' %}">Se déconnecter</a></p>
+    {% endif %}
+    <p>Pas encore membre ? <a href="{% url 'signup' %}">S'inscrire</a></p>
+</form>
+{% endblock content %}
