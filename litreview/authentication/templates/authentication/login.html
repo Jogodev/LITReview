@@ -8,6 +8,6 @@
     {% if user.is_authenticated %}
     <p>Vous êtes connecté {{ request.user }} <a href="{% url 'logout' %}">Se déconnecter</a></p>
     {% endif %}
-    <p>Pas encore membre ? <a href="{% url 'signup' %}">S'inscrire</a></p>
 </form>
+<p>Pas encore membre ? <a href="{% url 'signup' %}">Nous rejoindre</a></p>
 {% endblock content %}

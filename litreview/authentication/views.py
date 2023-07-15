@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.conf import settings
+from django.contrib import messages
 
 from . import forms
 
@@ -40,6 +42,7 @@ def logout_user(request):
 
 
 def signup_page(request):
+    """Register"""
     form = forms.SignUpForm()
     if request.method == 'POST':
         form = forms.SignUpForm(request.POST)

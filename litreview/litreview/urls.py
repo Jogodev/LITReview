@@ -26,4 +26,6 @@ urlpatterns = [
     path('logout/', authentication.views.logout_user, name='logout'),
     path('home/', review.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
+    path('tickets/create_ticket/', review.views.ticket_create, name='create_ticket'),
+    path('tickets/<int:ticket_id>', review.views.ticket_details, name='ticket_details'),
 ]
