@@ -3,7 +3,7 @@
 <h2>Suppression</h2>
 <p>Vous allez supprimer le billet {{ticket.title}}</p>
 <p>Êtes vous sûr ?</p>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="submit" value="Supprimer">
 </form>

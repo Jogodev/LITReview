@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ticket.title}}</h2>
-<img src="{{ ticket.image }}" alt="{{ticket.title}}">
+{% if ticket.image %}
+<img src="{{ ticket.image.url }}" alt="{{ticket.title}}">
+{% endif %}
 <p>{{ ticket.description }}</p>
 {% if ticket.user == request.user %}
 <a href="{% url 'ticket_update' ticket.id %}">Modifier ce billet </a>
