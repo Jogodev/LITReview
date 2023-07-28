@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{review.headline}}</h2>
+<p>{{ review.rating }}</p>
+<p>{{ review.body }}</p>
+<p>{{ review.user }}</p>
+{% if review.user == request.user %}
+<a href="{% url 'ticket_update' ticket.id %}">Modifier ce billet </a>
+<a href="{% url 'ticket_delete' ticket.id %}">Supprimer ce billet</a>
+{% endif %}
+{% endblock content %}
