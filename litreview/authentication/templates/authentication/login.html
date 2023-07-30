@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>{{ message }}</p>
-<form method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Se connecter</button>
-    {% if user.is_authenticated %}
-    <p>Vous êtes connecté {{ request.user }} <a href="{% url 'logout' %}">Se déconnecter</a></p>
-    {% endif %}
-</form>
-<p>Pas encore membre ? <a href="{% url 'signup' %}">Nous rejoindre</a></p>
-{% endblock content %}
+{% load crispy_forms_tags %}
+<div class="container_login">
+    <div class="left-nav">
+        <h5>Inscrivez-vous maintenant</h5>
+        <a href="{% url 'signup' %}">
+            <button type="button" class="btn btn-primary">S'inscrire</button>
+        </a>
+    </div>
+    <div class="right-nav">
+        <h5>Connectez-vous</h5>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Se connecter</button>
+        </form>
+    </div>
+    {% endblock content %}
+</div>

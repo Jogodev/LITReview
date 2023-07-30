@@ -1,0 +1,40 @@
+/*<------------login_page----------->*/
+.container_login {
+    display: flex;
+    justify-content: space-around;
+}
+
+.right-nav>h5{
+    margin: 50px 100px 50px;
+}
+
+.right-nav>form>button{
+    margin-left: 250px;
+}
+
+.left-nav {
+    margin-top: 80px;
+}
+
+.left-nav>a{
+    margin-left: 75px;
+}
+
+.left-nav>h5{
+    margin-bottom: 25px;
+}
+/*<------------login_page----------->*/
+.container_signup {
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-top: 25px;
+}
+
+.container_signup>h5 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.signup_return {
+    margin-top: 10px;
+}
