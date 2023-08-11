@@ -2,18 +2,22 @@
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="container_signup">
-<h5>Inscrivez-vous</h5>
-{% if form.errors %}
-{{form.errors}}
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    <fieldset class="form-group">
-        {{ form|crispy }}
-    </fieldset>
-    <div class="signup_submit"><button type="submit" class="btn btn-success">S'inscrire</button></div>
-</form>
-    <div class="signup_return"><a href="{% url 'login' %}"><button type="button" class="btn btn-primary">page de connexion</button></a></div>
+    <h5>Inscrivez-vous</h5>
+    {% if form.errors %}
+    {{form.errors}}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {{ form|crispy }}
+        </fieldset>
+        <div class="signup_submit">
+            <button type="submit" class="btn btn-success">S'inscrire</button>
+        </div>
+    </form>
+    <div class="signup_return"><a href="{% url 'login' %}">
+        <button type="button" class="btn btn-primary">page de connexion</button>
+    </a></div>
 </div>
 {% endblock content %}
 

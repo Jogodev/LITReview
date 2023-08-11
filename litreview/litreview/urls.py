@@ -35,7 +35,7 @@ urlpatterns = [
     path('reviews/<int:review_id>', review.views.review_details, name='review_details'),
     path('reviews/<int:review_id>/update', review.views.review_update, name='review_update'),
     path('reviews/<int:review_id>/delete', review.views.review_delete, name='review_delete'),
-
+    path('reviews/answer/<int:ticket_id>', review.views.review_answer, name='review_answer'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

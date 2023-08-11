@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<h2>Mise à jour du ticket {{ review.title }}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ update_form|crispy }}
+    <input type="submit" class="btn btn-success" value="Modifier">
+</form>
+{% endblock content %}

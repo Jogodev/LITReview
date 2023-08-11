@@ -74,20 +74,60 @@ def ticket_delete(request, ticket_id):
 
 @login_required
 def review_create(request):
-    """Create a review"""
-    review_form = forms.ReviewForm()
+    """Create a ticket and the review"""
+    review_form = ReviewForm(request.POST)
+    ticket_form = TicketForm(request.POST, request.FILES)
     if request.method == 'POST':
-        review_form = forms.ReviewForm(request.POST, request.FILES)
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review_form.save()
-            messages.success(request, 'Votre commentaire à été créé')
+        if review_form.is_valid() and ticket_form.is_valid():
+            new_ticket = Ticket.objects.create(
+                title=request.POST['title'],
+                description=request.POST['description'],
+                image=request.FILES['image'],
+                user=request.user
+            )
+            new_ticket.save()
+            new_review = Review.objects.create(
+                ticket=new_ticket,
+                rating=request.POST['rating'],
+                headline=request.POST['headline'],
+                body=request.POST['body'],
+                user=request.user,
+            )
+            new_review.save()
+            messages.success(request, 'Ticket et commentaire créés')
             return redirect('home')
+        else:
+            review_form = ReviewForm()
+            ticket_form = TicketForm()
     context = {
-        'review_form': review_form
+        'review_form': review_form,
+        'ticket_form': ticket_form,
     }
-    return render(request, 'review/review_create.html', context=context)
+    return render(request, 'review/review_create.html', context)
+
+
+@login_required
+def review_answer(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            Review.objects.create(
+                ticket=ticket,
+                rating=request.POST['rating'],
+                headline=request.POST['headline'],
+                body=request.POST['body'],
+                user=request.user,
+            )
+        messages.success(request, 'Commentaire créé')
+        return redirect('home')
+    else:
+        review_form = ReviewForm()
+    context = {
+        'review_form': review_form,
+        'ticket': ticket,
+    }
+    return render(request, 'review/review_answer.html', context)
 
 
 @login_required
@@ -98,7 +138,7 @@ def review_details(request, review_id):
 
 
 @login_required
-def review_update(request, review_id, ticket_id):
+def review_update(request, review_id):
     """Update a review"""
     review = Review.objects.get(id=review_id)
     if request.method == 'POST':
@@ -106,7 +146,7 @@ def review_update(request, review_id, ticket_id):
         if update_form.is_valid():
             update_form.save()
             messages.success(request, 'Commentaire modifié')
-            return redirect('home')
+            return redirect('review_details')
     else:
         update_form = ReviewForm(instance=review)
     context = {
@@ -122,7 +162,7 @@ def review_delete(request, review_id):
     review = Review.objects.get(id=review_id)
     if request.method == 'POST':
         review.delete()
-        messages.success(request, f'Votre commentaire {review.id} à été supprimé')
+        messages.success(request, f'Votre commentaire {review.title} à été supprimé')
         return redirect('home')
     context = {
         'review': review,

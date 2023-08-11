@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Suppression</h2>
+<p>Vous allez supprimer votre critique</p>
+<p>Êtes vous sûr ?</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Supprimer">
+</form>
+{% endblock content %}

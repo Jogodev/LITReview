@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Suppression</h2>
-<p>Vous allez supprimer le billet {{ticket.title}}</p>
+<p>Vous allez supprimer votre ticket {{ticket.title}}</p>
 <p>Êtes vous sûr ?</p>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}

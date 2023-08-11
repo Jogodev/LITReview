@@ -6,7 +6,8 @@
 {% endif %}
 <p>{{ ticket.description }}</p>
 {% if ticket.user == request.user %}
-<a href="{% url 'ticket_update' ticket.id %}">Modifier ce billet </a>
-<a href="{% url 'ticket_delete' ticket.id %}">Supprimer ce billet</a>
+<a class="btn btn-success" type="button" href="{% url 'ticket_update' ticket.id %}">Modifier ce billet </a>
+<a class="btn btn-success" type="button" href="{% url 'ticket_delete' ticket.id %}">Supprimer ce billet</a>
+<a class="btn btn-success" type="button" href="{% url 'review_answer' ticket.id %}">Créer une critique</a>
 {% endif %}
 {% endblock content %}

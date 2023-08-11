@@ -5,7 +5,7 @@
 <p>{{ review.body }}</p>
 <p>{{ review.user }}</p>
 {% if review.user == request.user %}
-<a href="{% url 'ticket_update' ticket.id %}">Modifier ce billet </a>
-<a href="{% url 'ticket_delete' ticket.id %}">Supprimer ce billet</a>
+<a class="btn btn-success" href="{% url 'review_update' review.id %}">Modifier votre critique</a>
+<a class="btn btn-danger" href="{% url 'review_delete' review.id %}">Supprimer votre critique</a>
 {% endif %}
 {% endblock content %}
