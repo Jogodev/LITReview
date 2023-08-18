@@ -27,15 +27,24 @@ urlpatterns = [
     path('', authentication.views.login_page, name='login'),
     path('logout/', authentication.views.logout_user, name='logout'),
     path('signup/', authentication.views.signup_page, name='signup'),
+
+    # tickets
     path('tickets/create_ticket/', review.views.ticket_create, name='create_ticket'),
     path('tickets/<int:ticket_id>', review.views.ticket_details, name='ticket_details'),
     path('tickets/<int:ticket_id>/update/', review.views.ticket_update, name='ticket_update'),
     path('tickets/<int:ticket_id>/delete/', review.views.ticket_delete, name='ticket_delete'),
+
+    # reviews
     path('reviews/review_create', review.views.review_create, name='review_create'),
     path('reviews/<int:review_id>', review.views.review_details, name='review_details'),
     path('reviews/<int:review_id>/update', review.views.review_update, name='review_update'),
     path('reviews/<int:review_id>/delete', review.views.review_delete, name='review_delete'),
     path('reviews/answer/<int:ticket_id>', review.views.review_answer, name='review_answer'),
+
+    # follow unfollow
+    path('subscriptions/', authentication.views.subscriptions_page, name='subscriptions'),
+    path('subscriptions/follow', authentication.views.follow, name='follow'),
+    path('subscriptions/unfollow/<int:id>', authentication.views.unfollow, name='unfollow'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

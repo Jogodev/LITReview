@@ -2,8 +2,14 @@
 {% block content %}
 <p>Bonjour {{ request.user }} </p>
 {% if user.is_authenticated %}
-<div class="s"><a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">Se déconnecter</button></a></div>
-<div class="s"><a href="{% url 'create_ticket' %}"><button type="button" class="btn btn-primary">Demander une critique</button></a></div>
-<div class="s"><a href="{% url 'review_create' %}"><button type="button" class="btn btn-primary">Créer une critique</button></a></div>
+<div class="s"><a href="{% url 'logout' %}">
+    <button type="button" class="btn btn-primary">Se déconnecter</button>
+</a></div>
+<div class="s"><a href="{% url 'create_ticket' %}">
+    <button type="button" class="btn btn-primary">Demander une critique</button>
+</a></div>
+<div class="s"><a href="{% url 'review_create' %}">
+    <button type="button" class="btn btn-primary">Créer une critique</button>
+</a></div>
 {% endif %}
 {% endblock content %}

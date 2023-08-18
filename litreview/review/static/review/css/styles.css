@@ -1,3 +1,7 @@
+.container_all {
+    margin: 0 200px ;
+}
+
 /*<------------login_page----------->*/
 .container_login {
     display: flex;
@@ -23,7 +27,7 @@
 .left-nav>h5{
     margin-bottom: 25px;
 }
-/*<------------login_page----------->*/
+/*<------------signup_page----------->*/
 .container_signup {
     margin-right: 20%;
     margin-left: 20%;
@@ -37,4 +41,28 @@
 
 .signup_return {
     margin-top: 10px;
+}
+
+/*<------------fieldset----------->*/
+.fieldset {
+    border: 1px solid;
+}
+
+/*<------------subscription----------->*/
+.subscriber {
+    margin: 10px 50px;
+}
+
+.followed_user {
+    display: flex;
+    justify-content:space-between;
+}
+
+.followed {
+    margin: 25px 50px;
+}
+
+.search_user {
+    display: flex;
+    justify-content: center;
 }

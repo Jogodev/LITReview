@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
+<div>
+    <div class="pt-4">
+        <h4 class="text-center">Suivre un nouvel utilisateur</h4>
+        <form class="search_user" method="post" action="{% url 'follow' %}">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="followed_user"
+                        placeholder="Nom de l'utilisateur"
+                />
+            </div>
+            <div class="">
+                <button type="submit" class="btn btn-success mb-3">S'abonné</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        {% if followed_user %}
+        <div class="followed">
+            <h4 class="text-center">Abonnements ({{ followed_user.count }})</h4>
+            {% for user in followed_user %}
+            <div class="followed_user fieldset">
+                <p class="mb-0 ml-4">{{ user.followed_user.username }}</p>
+                <form method="post" action="{% url 'unfollow' user.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" id="action" value="{{ user.followed_user.id }}">
+                    <button type="submit" class="btn btn-success btn-sm rounded-0">Se desabonner</button>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div>
+                <p>Vous ne suivez aucun utilisateur actuellement</p>
+                {% endif %}
+            </div>
+            <div>
+                <h4 class="text-center pt-4">Abonné ({{ followed_by.count }})</h4>
+                {% if followed_by %}
+                {% for follower in followed_by %}
+                <fieldset class="fieldset subscriber">
+                    {{ follower.user.username }}
+                </fieldset>
+                {% endfor %}
+                {% else %}
+                <p>Aucun utilisateur ne vous suit actuellement</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endblock content %}

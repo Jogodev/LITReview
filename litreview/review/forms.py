@@ -32,5 +32,3 @@ class ReviewForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(InlineRadios('rating'), css_class='col-md-3'),
         )
-
-
