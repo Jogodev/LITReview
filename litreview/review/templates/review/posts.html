@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>Heureux de vois revoir {{ request.user }} </p>
+{% for post in posts %}
+{% if post.title %}
+{% include 'review/ticket_snippet.html' %}
+{% else %}
+{% include 'review/review_snippet.html' %}
+{% endif %}
+{% endfor %}
+
+
+
+
+{% endblock content %}

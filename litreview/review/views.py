@@ -3,8 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.db.models import CharField, Value
+from itertools import chain
 from review.forms import TicketForm, ReviewForm
 from review.models import Ticket, Review
+from authentication.models import UserFollows
 
 from . import forms
 from . import models
@@ -12,7 +15,36 @@ from . import models
 
 @login_required
 def home(request):
-    return render(request, 'review/home.html')
+    my_tickets = Ticket.objects.filter(user=request.user)
+    my_reviews = Review.objects.filter(user=request.user)
+    followed_users = UserFollows.objects.filter(user=request.user.id).values('followed_user_id')
+    followed_ids = [id["followed_user_id"] for id in followed_users]
+    followed_ids.append(request.user.id)
+    tickets = my_tickets | Ticket.objects.filter(id__in=followed_ids)
+    reviews = my_reviews | Review.objects.filter(id__in=followed_ids)
+    print(followed_ids)
+    posts = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+    context = {
+        'followed_ids': followed_ids,
+        'tickets': tickets,
+        'reviews': reviews,
+        'posts': posts,
+    }
+    return render(request, 'review/home.html', context)
+
+
+@login_required
+def posts(request):
+    tickets = Ticket.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user)
+    posts = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+
+    context = {
+        'tickets': tickets,
+        'reviews': reviews,
+        'posts': posts,
+    }
+    return render(request, 'review/posts.html', context)
 
 
 @login_required

@@ -1,7 +1,9 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 <h2>Créer un billet</h2>
 <form method="post">
-  {{ ticket_form.as_p }}
+  {{ ticket_form|crispy }}
   {% csrf_token %}
   <input type="submit">Publier</input>
 </form>

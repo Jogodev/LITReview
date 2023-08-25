@@ -3,7 +3,7 @@
 <h2>Mise à jour du ticket {{ ticket.title }}</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ update_form.as_p }}
+    {{ update_form|crispy }}
     <input type="submit" value="Mettre à jour">
 </form>
 {% endblock content %}
