@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Bonjour {{ request.user }} </p>
-{% if user.is_authenticated %}
-<div class="s"><a href="{% url 'create_ticket' %}">
-    <button type="button" class="btn btn-primary">Demander une critique</button>
-</a></div>
-<div class="s"><a href="{% url 'review_create' %}">
-    <button type="button" class="btn btn-primary">Créer une critique</button>
-</a></div>
-{% endif %}
-{% for post in posts %}
-{% if post.title %}
-{% include 'review/ticket_snippet.html' %}
-{% elif %}
-{% include 'review/review_snippet.html' %}
-{% endif %}
-{% endfor %}
-{% endblock content %}
+<div class="container_pages pt-4">
+    <div class="d-flex justify-content-between">
+        <div class=""><a href="{% url 'create_ticket' %}">
+            <button type="button" class="btn btn-primary">Demander une critique</button>
+        </a></div>
+        <div class=""><a href="{% url 'review_create' %}">
+            <button type="button" class="btn btn-primary">Créer une critique</button>
+        </a></div>
+    </div>
+    {% for post in posts %}
+    {% if not post.ticket and post.user.id in followed_ids %}
+        {% include 'review/ticket_snippet.html' %}
+    {% elif post.ticket and post.user.id in followed_ids %}
+        {% include 'review/review_snippet.html' %}
+    {% endif %}
+    {% endfor %}
+    {% endblock content %}
+</div>

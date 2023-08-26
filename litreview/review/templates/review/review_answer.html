@@ -1,9 +1,33 @@
 {% extends 'base.html' %} {% block content %}
 {% load crispy_forms_tags %}
-<h2>Créer une critique</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ review_form|crispy }}
-    <input class="btn btn-success" type="submit"></input>
-</form>
+<div class="container_pages">
+    <h3 class="text-center pt-4 pb-4">Créer une critique</h3>
+    <div class="form-control rounded-0 mb-4">
+        <p class="pt-2 pl-2">Vous êtes en train de poster en réponse à</p>
+        <div class="card rounded-0 m-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <p>{{ ticket.user|capfirst }} à demandé une critique</p>
+                    <em class="align-self-start">{{ ticket.time_created }}</em>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ ticket.title }}</h5>
+                <p class="card-text">{{ ticket.description }}</p>
+                {% if ticket.image %}
+                <img src="{{ ticket.image.url }}" class="" alt="{{ ticket.title }}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="ml-4">
+            <form method="post" enctype="multipart/form-data" class="form-control">
+                {% csrf_token %}
+                {{ review_form|crispy }}
+                <div class="d-flex justify-content-end ml-4">
+                    <input class="btn btn-success" type="submit" value="Envoyer">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}

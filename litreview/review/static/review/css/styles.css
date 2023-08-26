@@ -1,5 +1,9 @@
 .container_all {
-    margin: 0 200px ;
+    margin: 0 200px;
+}
+
+.container_pages {
+    margin: 0 200px;
 }
 
 /*<------------login_page----------->*/
@@ -8,11 +12,11 @@
     justify-content: space-around;
 }
 
-.right-nav>h5{
+.right-nav > h5 {
     margin: 50px 100px 50px;
 }
 
-.right-nav>form>button{
+.right-nav > form > button {
     margin-left: 250px;
 }
 
@@ -20,13 +24,14 @@
     margin-top: 80px;
 }
 
-.left-nav>a{
+.left-nav > a {
     margin-left: 75px;
 }
 
-.left-nav>h5{
+.left-nav > h5 {
     margin-bottom: 25px;
 }
+
 /*<------------signup_page----------->*/
 .container_signup {
     margin-right: 20%;
@@ -34,7 +39,7 @@
     margin-top: 25px;
 }
 
-.container_signup>h5 {
+.container_signup > h5 {
     text-align: center;
     margin-bottom: 30px;
 }
@@ -53,9 +58,13 @@
     margin: 10px 50px;
 }
 
+.subscriber  {
+    margin: 0 50px;
+}
+
 .followed_user {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 .followed {
@@ -66,3 +75,12 @@
     display: flex;
     justify-content: center;
 }
+
+/*<------------posts----------->*/
+
+/*<------------feed----------->*/
+/*<------------forms----------->*/
+.all_forms {
+
+}
+/*<------------fieldset----------->*/

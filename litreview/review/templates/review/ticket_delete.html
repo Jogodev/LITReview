@@ -5,6 +5,6 @@
 <p>Êtes vous sûr ?</p>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="submit" value="Supprimer">
+    <input type="submit" class="btn btn-danger" value="Supprimer">
 </form>
 {% endblock content %}

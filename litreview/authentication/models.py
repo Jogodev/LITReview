@@ -1,6 +1,6 @@
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class User(AbstractUser):
@@ -15,6 +15,7 @@ class UserFollows(models.Model):
         on_delete=models.CASCADE,
         related_name="followed_by",
     )
+    restrict_user = models.CharField(max_length=100, blank=True)
 
     class Meta:
         # ensures we don't get multiple UserFollows instances

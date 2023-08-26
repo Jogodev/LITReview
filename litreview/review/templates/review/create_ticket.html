@@ -5,6 +5,9 @@
 <form method="post">
   {{ ticket_form|crispy }}
   {% csrf_token %}
-  <input type="submit">Publier</input>
+  <div class="d-flex justify-content-end pt-4">
+    <button class="btn btn-success" type="button">Envoyer</button>
+  </div>
+
 </form>
 {% endblock content %}

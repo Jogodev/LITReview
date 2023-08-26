@@ -11,6 +11,10 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
+        labels = {
+            'title': 'Titre',
+            'description': 'Description',
+        }
 
 
 class ReviewForm(forms.ModelForm):
@@ -23,7 +27,11 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['headline', 'body', 'rating']
+        fields = ['headline', 'rating', 'body']
+        labels = {
+            'headline': 'Titre',
+            'body': 'Commentaire',
+        }
 
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)

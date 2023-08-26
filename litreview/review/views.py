@@ -1,13 +1,12 @@
+from itertools import chain
+
+from authentication.models import UserFollows, User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.db.models import CharField, Value
-from itertools import chain
 from review.forms import TicketForm, ReviewForm
 from review.models import Ticket, Review
-from authentication.models import UserFollows
 
 from . import forms
 from . import models
@@ -20,11 +19,19 @@ def home(request):
     followed_users = UserFollows.objects.filter(user=request.user.id).values('followed_user_id')
     followed_ids = [id["followed_user_id"] for id in followed_users]
     followed_ids.append(request.user.id)
-    tickets = my_tickets | Ticket.objects.filter(id__in=followed_ids)
-    reviews = my_reviews | Review.objects.filter(id__in=followed_ids)
-    print(followed_ids)
+    users = User.objects.filter(id__in=followed_ids)
+    tickets = my_tickets | Ticket.objects.filter(user__in=users)
+    reviews = my_reviews | Review.objects.filter(user__in=users)
     posts = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+    print(users)
+    print(tickets)
+    print(reviews)
+    print(posts)
+    for post in posts:
+        print(post.user.id)
+    reviews_tickets = [review.ticket for review in reviews]
     context = {
+        'reviews_tickets': reviews_tickets,
         'followed_ids': followed_ids,
         'tickets': tickets,
         'reviews': reviews,

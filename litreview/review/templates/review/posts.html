@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Heureux de vois revoir {{ request.user }} </p>
-{% for post in posts %}
-{% if post.title %}
-{% include 'review/ticket_snippet.html' %}
-{% else %}
-{% include 'review/review_snippet.html' %}
-{% endif %}
-{% endfor %}
-
-
-
-
+<h2 class="text-center">Vos posts</h2>
+<div class="container_pages">
+    {% for post in posts %}
+    {% if post not in reviews %}
+    {% include 'review/ticket_snippet.html' %}
+    {% elif post in reviews %}
+    {% include 'review/review_snippet.html' %}
+    {% endif %}
+    {% endfor %}
+</div>
 {% endblock content %}

@@ -1,15 +1,30 @@
 
-<div class="fieldset">
-    <div class="card">
+<div class="mt-4 mb-4">
+    <div class="card rounded-0">
         <div class="card-header">
-            Ticket - {{ post.user }}
+            <div class="d-flex justify-content-between">
+                {% if post.user == request.user %}
+                <p>Vous avez publié un ticket</p>
+                {% else %}
+                <p>{{ post.user|capfirst }} à demandé une critique</p>
+                {% endif %}
+                <em class="align-self-start">{{ post.time_created }}</em>
+            </div>
         </div>
         <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.description }}</p>
             {% if post.image %}
-            <img src="{{ post.image.url }}" class="card-img-bottom" alt="{{ post.title }}">
+            <img src="{{ post.image.url }}" class="" alt="{{ post.title }}">
             {% endif %}
+            <div class="d-flex justify-content-end m-4">
+                {% if post.user == user %}
+                <a class="btn btn-success" type="button" href="{% url 'ticket_update' post.id %}">Modifier ce ticket </a>
+                <a class="btn btn-danger" type="button" href="{% url 'ticket_delete' post.id %}">Supprimer ce ticket</a>
+                {% elif post not in reviews %}
+                <a type="button" class="btn btn-success" href="{% url 'review_answer' post.id %}">Créer une critique</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

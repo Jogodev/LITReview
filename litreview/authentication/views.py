@@ -53,10 +53,16 @@ def login_page(request):
 def subscriptions_page(request):
     """Subscriptions"""
     subscribe_form = forms.SubscribeForm()
+    restrict_form = forms.RestrictForm()
     followed_user = UserFollows.objects.filter(user=request.user).order_by(
         "followed_user"
     )
-    followed_by = UserFollows.objects.filter(followed_user=request.user).order_by("followed_user")
+    followed_by = UserFollows.objects.filter(followed_user=request.user).order_by(
+        "followed_user"
+    )
+    restrict_user = UserFollows.objects.filter(restrict_user=request.user).order_by(
+        "restrict_user"
+    )
 
     if request.method == "POST":
         subscribe_form = forms.SubscribeForm(request.POST)
@@ -65,6 +71,8 @@ def subscriptions_page(request):
         else:
             subscribe_form = forms.SubscribeForm()
     context = {
+        "restrict_form": restrict_form,
+        "restrict_user": restrict_user,
         "subscribe_form": subscribe_form,
         "followed_user": followed_user,
         "followed_by": followed_by,
@@ -79,18 +87,20 @@ def follow(request):
         subscribe_form = forms.SubscribeForm(request.POST)
         if subscribe_form.is_valid():
             try:
-                followed_user = User.objects.get(username=request.POST['followed_user'])
+                followed_user = User.objects.get(username=request.POST["followed_user"])
                 if request.user == followed_user:
-                    messages.error(request, f'Vous ne pouvez pas vous suivre vous même')
+                    messages.error(request, f"Vous ne pouvez pas vous suivre vous même")
                 else:
                     try:
-                        UserFollows.objects.create(user=request.user, followed_user=followed_user)
-                        messages.success(request, f'Vous suivez {followed_user}')
+                        UserFollows.objects.create(
+                            user=request.user, followed_user=followed_user
+                        )
+                        messages.success(request, f"Vous suivez {followed_user}")
                     except IntegrityError:
                         messages.error(request, f"Vous suivez déjà {followed_user}")
             except User.DoesNotExist:
                 messages.error(request, "Cet utilisateur n'existe pas")
-        return redirect('subscriptions')
+        return redirect("subscriptions")
 
 
 @login_required
@@ -100,5 +110,26 @@ def unfollow(request, id):
         unfollow = UserFollows.objects.get(id=id)
         followed_user = unfollow.followed_user
         unfollow.delete()
-        messages.warning(request, f'Vous ne suivez plus {followed_user}')
-    return redirect('subscriptions')
+        messages.warning(request, f"Vous ne suivez plus {followed_user}")
+    return redirect("subscriptions")
+
+
+@login_required
+def restrict(request):
+    """restrict"""
+    if request.method == "POST":
+        restrict_form = forms.RestrictForm(request.POST)
+        if restrict_form.is_valid():
+            try:
+                restrict_user = UserFollows.objects.get(username=request.POST['restrict_user'])
+                if request.user == restrict_user:
+                    messages.error(request, f"Vous ne pouvez pas vous bloquer vous même")
+                else:
+                    try:
+
+                        messages.success(request, f"Vous avez bloqué {restrict_user}")
+                    except IntegrityError:
+                        messages.error(request, f"Vous avez déjà bloqué{restrict_user}")
+            except User.DoesNotExist:
+                messages.error(request, "Cet utilisateur n'existe pas")
+        return redirect("subscriptions")

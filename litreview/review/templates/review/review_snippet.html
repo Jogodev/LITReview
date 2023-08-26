@@ -1,10 +1,33 @@
-<div class="card">
+{% if post.user == request.user or post.user.id in followed_ids %}
+<div class="card mt-4 mb-4 rounded-0">
     <div class="card-header">
-        Featured
+        <div class="d-flex justify-content-between">
+            {% if post.user == request.user %}
+            <p>Vous avez publié une critique</p>
+            {% else %}
+            <p>{{ post.user|capfirst }} à publié une critique</p>
+            {% endif %}
+            <em class="align-self-start">{{ post.time_created }}</em>
+        </div>
+        <div class="d-flex">
+            <b>{{ post.headline|title }}</b>
+            <p> - {{ post.rating|title }}</p>
+        </div>
+        <p>{{ post.body }}</p>
     </div>
     <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="card">
+            <div class="card-header">
+                Ticket - {{ post.user }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.ticket.title }}</h5>
+                <p class="card-text">{{ post.ticket.description }}</p>
+                {% if post.ticket.image %}
+                <img src="{{ post.ticket.image.url }}" class="" alt="{{ post.title }}">
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
+{% endif %}
