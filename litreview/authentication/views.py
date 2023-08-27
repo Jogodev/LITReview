@@ -1,4 +1,4 @@
-from authentication.models import User, UserFollows
+from authentication.models import User, UserFollows, UserBlocked
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -53,17 +53,17 @@ def login_page(request):
 def subscriptions_page(request):
     """Subscriptions"""
     subscribe_form = forms.SubscribeForm()
-    restrict_form = forms.RestrictForm()
+    blocked_form = forms.BlockedForm()
     followed_user = UserFollows.objects.filter(user=request.user).order_by(
         "followed_user"
     )
     followed_by = UserFollows.objects.filter(followed_user=request.user).order_by(
         "followed_user"
     )
-    restrict_user = UserFollows.objects.filter(restrict_user=request.user).order_by(
-        "restrict_user"
+    blocked_user = UserBlocked.objects.filter(user=request.user).order_by(
+        "blocked_user"
     )
-
+    print(blocked_user)
     if request.method == "POST":
         subscribe_form = forms.SubscribeForm(request.POST)
         if subscribe_form.is_valid():
@@ -71,8 +71,8 @@ def subscriptions_page(request):
         else:
             subscribe_form = forms.SubscribeForm()
     context = {
-        "restrict_form": restrict_form,
-        "restrict_user": restrict_user,
+        "blocked_form": blocked_form,
+        "blocked_user": blocked_user,
         "subscribe_form": subscribe_form,
         "followed_user": followed_user,
         "followed_by": followed_by,
@@ -115,21 +115,34 @@ def unfollow(request, id):
 
 
 @login_required
-def restrict(request):
-    """restrict"""
+def blocked(request):
+    """blocked"""
     if request.method == "POST":
-        restrict_form = forms.RestrictForm(request.POST)
-        if restrict_form.is_valid():
+        blocked_form = forms.BlockedForm(request.POST)
+        if blocked_form.is_valid():
             try:
-                restrict_user = UserFollows.objects.get(username=request.POST['restrict_user'])
-                if request.user == restrict_user:
+                user_to_blocked = User.objects.get(username=request.POST['blocked_user'])
+                if request.user == user_to_blocked:
                     messages.error(request, f"Vous ne pouvez pas vous bloquer vous même")
                 else:
                     try:
-
-                        messages.success(request, f"Vous avez bloqué {restrict_user}")
+                        UserBlocked.objects.create(
+                            user=request.user, blocked_user=user_to_blocked
+                        )
+                        messages.success(request, f"Vous avez bloqué {user_to_blocked}")
                     except IntegrityError:
-                        messages.error(request, f"Vous avez déjà bloqué{restrict_user}")
+                        messages.error(request, f"Vous avez déjà bloqué{user_to_blocked}")
             except User.DoesNotExist:
                 messages.error(request, "Cet utilisateur n'existe pas")
         return redirect("subscriptions")
+
+
+@login_required
+def unblocked(request, id):
+    """unblocked"""
+    if request.method == "POST":
+        unblocked = UserBlocked.objects.get(id=id)
+        blocked_user = unblocked.blocked_user
+        unblocked.delete()
+        messages.warning(request, f"Vous avez débloquer {blocked_user}")
+    return redirect("subscriptions")

@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
 <div class="container_pages">
     <div class="pt-4">
-        <h4 class="text-center">Suivre un nouvel utilisateur</h4>
+        <p class="text-center h4">Suivre un nouvel utilisateur</p>
         <form class="search_user" method="post" action="{% url 'follow' %}">
             {% csrf_token %}
             <div class="col-md-6">
@@ -20,24 +20,24 @@
     <div>
         {% if followed_user %}
         <div class="followed">
-            <h4 class="text-center">Abonnements ({{ followed_user.count }})</h4>
+            <p class="text-center h4">Abonnements ({{ followed_user.count }})</p>
             {% for user in followed_user %}
             <div class="followed_user fieldset">
                 <p class="mb-0 ml-4">{{ user.followed_user.username|capfirst }}</p>
                 <form method="post" action="{% url 'unfollow' user.id %}">
                     {% csrf_token %}
-                    <input type="hidden" name="id" id="action" value="{{ user.followed_user.id }}">
+                    <input type="hidden" name="id" value="{{ user.followed_user.id }}">
                     <button type="submit" class="btn btn-success btn-sm rounded-0">Se desabonner</button>
                 </form>
             </div>
             {% endfor %}
             {% else %}
             <div>
-                <p>Vous ne suivez aucun utilisateur actuellement</p>
+                <p class="text-center">Vous ne suivez aucun utilisateur actuellement</p>
                 {% endif %}
             </div>
             <div>
-                <h4 class="text-center pt-4">Abonné ({{ followed_by.count }})</h4>
+                <p class="text-center h4 pt-4">Abonné ({{ followed_by.count }})</p>
                 {% if followed_by %}
                 {% for follower in followed_by %}
                 <fieldset class="fieldset subscriber">
@@ -50,22 +50,39 @@
             </div>
         </div>
     </div>
-    {% if restrict_user %}
+    <div class="pt-4">
+        <p class="text-center h4">Bloquer un utilisateur</p>
+        <form class="search_user" method="post" action="{% url 'blocked' %}">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <input
+                        type="text"
+                        class="form-control"
+                        name="blocked_user"
+                        placeholder="Nom de l'utilisateur"
+                />
+            </div>
+            <div class="">
+                <button type="submit" class="btn btn-success mb-3">Bloquer</button>
+            </div>
+        </form>
+    </div>
+    {% if blocked_user %}
     <div class="followed">
-        <h4 class="text-center">Abonnements ({{ followed_user.count }})</h4>
-        {% for user in followed_user %}
+        <p class="text-center h4">Utilisateurs bloqués ({{ blocked_user.count }})</p>
+        {% for user in blocked_user %}
         <div class="followed_user fieldset">
-            <p class="mb-0 ml-4">{{ user.followed_user.username|capfirst }}</p>
-            <form method="post" action="{% url 'unfollow' user.id %}">
+            <p class="mb-0 ml-4">{{ user.blocked_user.username|capfirst }}</p>
+            <form method="post" action="{% url 'unblocked' user.id %}">
                 {% csrf_token %}
-                <input type="hidden" name="id" id="action" value="{{ user.followed_user.id }}">
-                <button type="submit" class="btn btn-success btn-sm rounded-0">Se desabonner</button>
+                <input type="hidden" name="id" value="{{ user.blocked_user.id }}">
+                <button type="submit" class="btn btn-success btn-sm rounded-0">Débloquer</button>
             </form>
         </div>
         {% endfor %}
         {% else %}
         <div>
-            <p>Vous ne suivez aucun utilisateur actuellement</p>
+            <p class="text-center h4">Vous n'avez bloqué aucun utilisateur</p>
             {% endif %}
         </div>
     </div>

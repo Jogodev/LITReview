@@ -25,5 +25,5 @@ class SubscribeForm(forms.Form):
     followed_user = forms.CharField(widget=forms.TextInput())
 
 
-class RestrictForm(forms.Form):
-    restrict_user = forms.CharField(widget=forms.TextInput())
+class BlockedForm(forms.Form):
+    blocked_user = forms.CharField(widget=forms.TextInput())

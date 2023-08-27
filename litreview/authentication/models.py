@@ -15,7 +15,6 @@ class UserFollows(models.Model):
         on_delete=models.CASCADE,
         related_name="followed_by",
     )
-    restrict_user = models.CharField(max_length=100, blank=True)
 
     class Meta:
         # ensures we don't get multiple UserFollows instances
@@ -23,4 +22,20 @@ class UserFollows(models.Model):
         unique_together = (
             "user",
             "followed_user",
+        )
+
+
+class UserBlocked(models.Model):
+    """ """
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    blocked_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="blocked_by",
+    )
+
+    class Meta:
+        unique_together = (
+            "user",
+            "blocked_user",
         )

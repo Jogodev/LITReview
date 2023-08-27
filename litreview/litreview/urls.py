@@ -46,6 +46,9 @@ urlpatterns = [
     path('subscriptions/', authentication.views.subscriptions_page, name='subscriptions'),
     path('subscriptions/follow', authentication.views.follow, name='follow'),
     path('subscriptions/unfollow/<int:id>', authentication.views.unfollow, name='unfollow'),
+    path('subscriptions/blocked', authentication.views.blocked, name='blocked'),
+    path('subscriptions/unblocked/<int:id>', authentication.views.unblocked, name='unblocked'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(
