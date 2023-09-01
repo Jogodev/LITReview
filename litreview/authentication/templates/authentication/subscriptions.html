@@ -50,41 +50,5 @@
             </div>
         </div>
     </div>
-    <div class="pt-4">
-        <p class="text-center h4">Bloquer un utilisateur</p>
-        <form class="search_user" method="post" action="{% url 'blocked' %}">
-            {% csrf_token %}
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        class="form-control"
-                        name="blocked_user"
-                        placeholder="Nom de l'utilisateur"
-                />
-            </div>
-            <div class="">
-                <button type="submit" class="btn btn-success mb-3">Bloquer</button>
-            </div>
-        </form>
-    </div>
-    {% if blocked_user %}
-    <div class="followed">
-        <p class="text-center h4">Utilisateurs bloqués ({{ blocked_user.count }})</p>
-        {% for user in blocked_user %}
-        <div class="followed_user fieldset">
-            <p class="mb-0 ml-4">{{ user.blocked_user.username|capfirst }}</p>
-            <form method="post" action="{% url 'unblocked' user.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="id" value="{{ user.blocked_user.id }}">
-                <button type="submit" class="btn btn-success btn-sm rounded-0">Débloquer</button>
-            </form>
-        </div>
-        {% endfor %}
-        {% else %}
-        <div>
-            <p class="text-center h4">Vous n'avez bloqué aucun utilisateur</p>
-            {% endif %}
-        </div>
-    </div>
 </div>
 {% endblock content %}
