@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from review.forms import TicketForm, ReviewForm
 from review.models import Ticket, Review
 
@@ -22,16 +23,14 @@ def home(request):
     users = User.objects.filter(id__in=followed_ids)
     tickets = my_tickets | Ticket.objects.filter(user__in=users)
     reviews = my_reviews | Review.objects.filter(user__in=users)
-    posts = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
-    print(users)
-    print(tickets)
-    print(reviews)
-    print(posts)
-    for post in posts:
-        print(post.user.id)
-    reviews_tickets = [review.ticket for review in reviews]
+    tickets_and_reviews = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+
+    paginator = Paginator(tickets_and_reviews, 2)
+    print(paginator.page_range)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+
     context = {
-        'reviews_tickets': reviews_tickets,
         'followed_ids': followed_ids,
         'tickets': tickets,
         'reviews': reviews,
@@ -44,7 +43,11 @@ def home(request):
 def posts(request):
     tickets = Ticket.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
-    posts = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+    tickets_and_review = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+
+    paginator = Paginator(tickets_and_review, 2)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
 
     context = {
         'tickets': tickets,
@@ -87,7 +90,7 @@ def ticket_update(request, ticket_id):
         update_form = TicketForm(request.POST, request.FILES, instance=ticket)
         if update_form.is_valid():
             update_form.save()
-            messages.success(request, 'Votre billet à été mis à jour')
+            messages.success(request, 'Votre ticket à été mis à jour')
             return redirect('ticket_details', ticket_id)
     else:
         update_form = TicketForm(instance=ticket)
@@ -104,7 +107,7 @@ def ticket_delete(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
         ticket.delete()
-        messages.success(request, f'Votre billet {ticket.title} à été supprimé')
+        messages.success(request, f'Votre ticket à été supprimé')
         return redirect('home')
     context = {
         'ticket': ticket
@@ -123,7 +126,8 @@ def review_create(request):
                 title=request.POST['title'],
                 description=request.POST['description'],
                 image=request.FILES['image'],
-                user=request.user
+                user=request.user,
+                posted_review=True
             )
             new_ticket.save()
             new_review = Review.objects.create(
@@ -159,6 +163,8 @@ def review_answer(request, ticket_id):
                 body=request.POST['body'],
                 user=request.user,
             )
+            ticket.posted_review = True
+            ticket.save()
         messages.success(request, 'Commentaire créé')
         return redirect('home')
     else:
@@ -186,7 +192,7 @@ def review_update(request, review_id):
         if update_form.is_valid():
             update_form.save()
             messages.success(request, 'Commentaire modifié')
-            return redirect('review_details')
+            return redirect('home')
     else:
         update_form = ReviewForm(instance=review)
     context = {
@@ -200,9 +206,12 @@ def review_update(request, review_id):
 def review_delete(request, review_id):
     """Remove a review"""
     review = Review.objects.get(id=review_id)
+    ticket = Ticket.objects.get(id=review.ticket_id)
     if request.method == 'POST':
         review.delete()
-        messages.success(request, f'Votre commentaire {review.title} à été supprimé')
+        ticket.posted_review = False
+        ticket.save()
+        messages.success(request, f'Votre commentaire à été supprimé')
         return redirect('home')
     context = {
         'review': review,

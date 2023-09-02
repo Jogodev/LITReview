@@ -9,9 +9,9 @@ class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = ResizedImageField(size=[300, 500],
-                              null=True, blank=True, upload_to='tickets_img')
+    image = ResizedImageField(size=[300, 500], null=True, blank=True, upload_to='tickets_img')
     time_created = models.DateTimeField(auto_now_add=True)
+    posted_review = models.BooleanField(default=False)
 
 
 class Review(models.Model):

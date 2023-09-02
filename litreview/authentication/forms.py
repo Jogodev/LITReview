@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=63, label="Nom d'utilisateur")
-    password1 = forms.CharField(max_length=63, widget=forms.PasswordInput, label='Mot de passe')
+    password1 = forms.CharField(max_length=63, widget=forms.PasswordInput(), label='Mot de passe')
     password2 = forms.CharField(
         max_length=63,
         widget=forms.PasswordInput,

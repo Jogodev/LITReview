@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-center">Vos posts</h2>
+<h2 class="text-center pt-4 pb-4">Vos posts</h2>
 <div class="container_pages">
     {% for post in posts %}
     {% if post not in reviews %}
@@ -9,5 +9,8 @@
     {% include 'review/review_snippet.html' %}
     {% endif %}
     {% endfor %}
+    <span class="text-center">
+        {% include 'review/pagination_snippet.html' %}
+    </span>
 </div>
 {% endblock content %}

@@ -40,3 +40,21 @@ $ python manage.py runserver
 ````
 
 ### Sur votre navigateur rendez vous a l'adresse http://127.0.0.1:8000/
+
+#### Inscrivez vous ou connectez vous avec un des utilisateurs suivant :
+| **Utilisateur** | **Mot de passe** |
+|-----------------|------------------|
+| John            | Litreview123     |
+| Bob             | Litreview123     |
+| Alain           | Litreview123     |
+
+### Fonctionnalités
+#### Non connecté
+* Inscription
+* Connexion
+#### Connecté
+* Créer des ticket de demande de critique
+* Créer des critiques
+* Voir, Modifier, supprimer vos tickets et vos critiques
+* Un flux avec vos tickets, critiques et ceux des utilisateurs que vous suivez
+* S'abonner à des utilisateurs et se désabonner

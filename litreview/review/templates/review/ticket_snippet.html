@@ -21,8 +21,10 @@
                 {% if post.user == user %}
                 <a class="btn btn-success" type="button" href="{% url 'ticket_update' post.id %}">Modifier ce ticket </a>
                 <a class="btn btn-danger" type="button" href="{% url 'ticket_delete' post.id %}">Supprimer ce ticket</a>
-                {% elif post not in reviews %}
+                {% elif post.posted_review == False %}
                 <a type="button" class="btn btn-success" href="{% url 'review_answer' post.id %}">Créer une critique</a>
+                {% else %}
+                <p>Un utilisateur a déjà repondu à ce ticket</p>
                 {% endif %}
             </div>
         </div>

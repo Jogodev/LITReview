@@ -28,6 +28,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['headline', 'rating', 'body']
+        widgets = {'rating': forms.RadioSelect()}
         labels = {
             'headline': 'Titre',
             'body': 'Commentaire',
@@ -38,5 +39,5 @@ class ReviewForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'form-group'
         self.helper.layout = Layout(
-            Div(InlineRadios('rating'), css_class='col-md-3'),
+            Div(InlineRadios('rating', css_class='custom-control-label')),
         )

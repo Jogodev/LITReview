@@ -2,7 +2,7 @@
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="container_signup">
-    <h5>Inscrivez-vous</h5>
+    <h3>Inscrivez-vous</h3>
     {% if form.errors %}
     {{form.errors}}
     {% endif %}
@@ -13,7 +13,7 @@
                 <button type="submit" class="btn btn-success">S'inscrire</button>
             </div>
         </form>
-        <div class="signup_return"><a href="{% url 'login' %}">
+        <div class="signup_return d-flex justify-content-end"><a href="{% url 'login' %}">
             <button type="button" class="btn btn-primary">page de connexion</button>
         </a></div>
 </div>

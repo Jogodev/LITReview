@@ -1,9 +1,13 @@
+* {
+    font-size: 18px;
+}
+
 .container_all {
     margin: 0 200px;
 }
 
 .container_pages {
-    margin: 0 200px;
+    margin: 0 200px 200px;
 }
 
 /*<------------login_page----------->*/
@@ -12,12 +16,12 @@
     justify-content: space-around;
 }
 
-.right-nav > h5 {
+.right-nav > h3 {
     margin: 50px 100px 50px;
 }
 
 .right-nav > form > button {
-    margin-left: 250px;
+    margin-left: 350px;
 }
 
 .left-nav {
@@ -25,10 +29,10 @@
 }
 
 .left-nav > a {
-    margin-left: 75px;
+    margin-left: 100px;
 }
 
-.left-nav > h5 {
+.left-nav > h4 {
     margin-bottom: 25px;
 }
 

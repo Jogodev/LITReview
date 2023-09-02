@@ -18,7 +18,7 @@
     <div class="card-body">
         <div class="card">
             <div class="card-header">
-                Ticket - {{ post.user }}
+                Ticket - {{ post.ticket.user|capfirst }}
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ post.ticket.title }}</h5>
@@ -27,6 +27,12 @@
                 <img src="{{ post.ticket.image.url }}" class="" alt="{{ post.title }}">
                 {% endif %}
             </div>
+        </div>
+        <div class="d-flex justify-content-end m-4">
+            {% if post.user == user %}
+            <a class="btn btn-success" type="button" href="{% url 'review_update' post.id %}">Modifier cette critique</a>
+            <a class="btn btn-danger" type="button" href="{% url 'review_delete' post.id %}">Supprimer cette critique</a>
+            {% endif %}
         </div>
     </div>
 </div>
