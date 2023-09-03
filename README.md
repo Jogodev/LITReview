@@ -1,5 +1,5 @@
 # Projet LITReview
-
+LITReview est un site permettant de publier des critiques de livres ou d’articles et de consulter ou de solliciter une critique de livres à la demande.
 ## Cloner le projet
 
 ````bash
@@ -34,7 +34,11 @@ $ source env\scripts\activate
 $ pip install -r requirements.txt
 ````
 
-Lancer la commande:
+### Se déplacer dans le second dossier litreview
+````bash
+$ cd litreview
+````
+### Lancer la commande
 ````bash
 $ python manage.py runserver
 ````
