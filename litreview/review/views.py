@@ -3,9 +3,9 @@ from itertools import chain
 from authentication.models import UserFollows, User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.core.paginator import Paginator
 from review.forms import TicketForm, ReviewForm
 from review.models import Ticket, Review
 
@@ -22,11 +22,16 @@ def home(request):
     followed_ids.append(request.user.id)
     users = User.objects.filter(id__in=followed_ids)
     tickets = my_tickets | Ticket.objects.filter(user__in=users)
-    reviews = my_reviews | Review.objects.filter(user__in=users)
-    tickets_and_reviews = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+    tickets_list = list(tickets)
+    tickets_ids = [ticket.id for ticket in tickets_list]
+    reviews = my_reviews | Review.objects.filter(ticket__id__in=tickets_ids)
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda post: post.time_created,
+        reverse=True
+    )
 
     paginator = Paginator(tickets_and_reviews, 2)
-    print(paginator.page_range)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
 
@@ -43,7 +48,11 @@ def home(request):
 def posts(request):
     tickets = Ticket.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
-    tickets_and_review = sorted(chain(tickets, reviews), key=lambda post: post.time_created, reverse=True)
+    tickets_and_review = sorted(
+        chain(tickets, reviews),
+        key=lambda post: post.time_created,
+        reverse=True
+    )
 
     paginator = Paginator(tickets_and_review, 2)
     page = request.GET.get('page')
@@ -91,7 +100,7 @@ def ticket_update(request, ticket_id):
         if update_form.is_valid():
             update_form.save()
             messages.success(request, 'Votre ticket à été mis à jour')
-            return redirect('ticket_details', ticket_id)
+            return redirect('posts')
     else:
         update_form = TicketForm(instance=ticket)
     context = {
@@ -152,6 +161,7 @@ def review_create(request):
 
 @login_required
 def review_answer(request, ticket_id):
+    """"""
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)

@@ -1,19 +1,21 @@
 {% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
 <div class="container_pages">
-    <div class="pt-4">
-        <p class="text-center h4">Suivre un nouvel utilisateur</p>
+    <div class="pt-4 pb-4">
+        <h1 class="text-center pb-4">Suivre un nouvel utilisateur</h1>
         <form class="search_user" method="post" action="{% url 'follow' %}">
             {% csrf_token %}
             <div class="col-md-6">
+                <label hidden for="followed_user">Entrer le nom de l'utilisateur</label>
                 <input
                         type="text"
                         class="form-control"
                         name="followed_user"
+                        id="followed_user"
                         placeholder="Nom de l'utilisateur"
                 />
             </div>
             <div class="">
-                <button type="submit" class="btn btn-success mb-3">S'abonné</button>
+                <button type="submit" class="btn btn-success">S'abonné</button>
             </div>
         </form>
     </div>
@@ -45,7 +47,7 @@
                 </fieldset>
                 {% endfor %}
                 {% else %}
-                <p>Aucun utilisateur ne vous suit actuellement</p>
+                <p class="text-center pt-4">Aucun utilisateur ne vous suit actuellement</p>
                 {% endif %}
             </div>
         </div>

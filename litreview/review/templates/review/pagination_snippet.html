@@ -8,7 +8,6 @@
         </span>
         {% if posts.has_next %}
             <a href="?page={{ posts.next_page_number }}">suivante</a>
-
             <a href="?page={{ posts.paginator.num_pages }}">dernière »</a>
         {% endif %}
     </span>

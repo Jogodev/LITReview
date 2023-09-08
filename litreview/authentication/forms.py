@@ -22,7 +22,7 @@ class LoginForm(forms.Form):
 
 
 class SubscribeForm(forms.Form):
-    followed_user = forms.CharField(widget=forms.TextInput())
+    followed_user = forms.CharField(widget=forms.TextInput(), label="Nom de l'utilisateur")
 
 
 class BlockedForm(forms.Form):

@@ -1,4 +1,4 @@
-{% if post.user == request.user or post.user.id in followed_ids %}
+{% load stars %}
 <div class="card mt-4 mb-4 rounded-0">
     <div class="card-header">
         <div class="d-flex justify-content-between">
@@ -10,8 +10,8 @@
             <em class="align-self-start">{{ post.time_created }}</em>
         </div>
         <div class="d-flex">
-            <b>{{ post.headline|title }}</b>
-            <p> - {{ post.rating|title }}</p>
+            <b class="h5">{{ post.headline|title }} -</b>
+            <b class="h5">{{ post.rating|stars }}</b>
         </div>
         <p>{{ post.body }}</p>
     </div>
@@ -21,7 +21,7 @@
                 Ticket - {{ post.ticket.user|capfirst }}
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ post.ticket.title }}</h5>
+                <p class="card-title h5">{{ post.ticket.title }}</p>
                 <p class="card-text">{{ post.ticket.description }}</p>
                 {% if post.ticket.image %}
                 <img src="{{ post.ticket.image.url }}" class="" alt="{{ post.title }}">
@@ -36,4 +36,3 @@
         </div>
     </div>
 </div>
-{% endif %}

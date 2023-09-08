@@ -2,20 +2,22 @@
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="container_signup">
-    <h3>Inscrivez-vous</h3>
+    <h3 class="text-center">Inscrivez-vous</h3>
     {% if form.errors %}
     {{form.errors}}
     {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="signup_return d-flex justify-content-end"><a href="{% url 'login' %}">
+            <button type="button" class="btn btn-primary">page de connexion</button>
+        </a>
             <div class="signup_submit">
                 <button type="submit" class="btn btn-success">S'inscrire</button>
             </div>
-        </form>
-        <div class="signup_return d-flex justify-content-end"><a href="{% url 'login' %}">
-            <button type="button" class="btn btn-primary">page de connexion</button>
-        </a></div>
+        </div>
+    </form>
+
 </div>
 {% endblock content %}
 

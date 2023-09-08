@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-center pt-4 pb-4">Flux</h2>
+<h1 class="text-center pt-4 pb-4">Flux</h1>
 <div class="container_pages pt-4">
     <div class="d-flex justify-content-around">
         <div class=""><a href="{% url 'create_ticket' %}">
@@ -10,14 +10,20 @@
             <button type="button" class="btn btn-primary">Créer une critique</button>
         </a></div>
     </div>
+    {% if posts %}
     {% for post in posts %}
-    {% if not post.ticket and post.user.id in followed_ids %}
-        {% include 'review/ticket_snippet.html' %}
-    {% elif post.ticket and post.user.id in followed_ids %}
-        {% include 'review/review_snippet.html' %}
+    {% if not post.ticket.posted_review %}
+    {% include 'review/ticket_snippet.html' %}
+    {% else %}
+    {% include 'review/review_snippet.html' %}
     {% endif %}
     {% endfor %}
-    <span>
+    {% else %}
+    <p class="text-center pt-4 pb-4 h4">Aucun post dans votre flux</p>
+    {% endif %}
+
+
+    <span class="text-center">
         {% include 'review/pagination_snippet.html' %}
     </span>
     {% endblock content %}
