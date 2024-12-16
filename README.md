@@ -21,11 +21,11 @@ $ . env\scripts\activate
 ````
 #### Mac
 ````bash
-$ source env\scripts\activate
+$ source env\bin\activate
 ````
 #### linux
 ````bash
-$ source env\scripts\activate
+$ source env\bin\activate
 ````
 
 ### Installer les paquets
